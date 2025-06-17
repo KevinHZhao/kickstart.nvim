@@ -10,7 +10,7 @@ return {
     'MunifTanjim/nui.nvim',
     '3rd/image.nvim',
   },
-  cmd = 'Neotree',
+  lazy = false,
   keys = {
     { '\\', ':Neotree toggle<CR>', desc = 'NeoTree toggle', silent = true },
   },
