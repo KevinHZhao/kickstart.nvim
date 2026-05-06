@@ -604,6 +604,7 @@ do
     })
   end, { desc = '[/] Fuzzily search in current buffer' })
 
+<<<<<<< HEAD
   -- It's also possible to pass additional configuration options.
   --  See `:help telescope.builtin.live_grep()` for information about particular keys
   vim.keymap.set(
@@ -617,6 +618,17 @@ do
     end,
     { desc = '[S]earch [/] in Open Files' }
   )
+=======
+      ---@param buf integer
+      ---@param language string
+      local function treesitter_try_attach(buf, language)
+        -- check if language is latex and if so, end to use vimtex syntax highlighting
+        if language == 'latex' then return end
+        -- check if parser exists and load it
+        if not vim.treesitter.language.add(language) then return end
+        -- enables syntax highlighting and other treesitter features
+        vim.treesitter.start(buf, language)
+>>>>>>> a3e5604 (disable for vs code)
 
   -- Shortcut for searching your Neovim configuration files
   vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config', follow = true } end, { desc = '[S]earch [N]eovim files' })
