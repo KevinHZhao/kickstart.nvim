@@ -84,6 +84,10 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+if vim.g.vscode then
+    return
+end
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -924,6 +928,8 @@ require('lazy').setup({
       ---@param buf integer
       ---@param language string
       local function treesitter_try_attach(buf, language)
+        -- check if language is latex and if so, end to use vimtex syntax highlighting
+        if language == 'latex' then return end
         -- check if parser exists and load it
         if not vim.treesitter.language.add(language) then return end
         -- enables syntax highlighting and other treesitter features
