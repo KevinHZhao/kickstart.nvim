@@ -1,4 +1,1 @@
-return {
-  'github/copilot.vim',
-  config = function() end,
-}
+vim.pack.add{'https://www.github.com/github/copilot.vim'}
