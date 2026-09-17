@@ -5,15 +5,17 @@ vim.pack.add {
   { src = 'https://github.com/nvim-neo-tree/neo-tree.nvim', version = vim.version.range '*' },
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/MunifTanjim/nui.nvim',
+  'https://github.com/3rd/image.nvim',
 }
 
-vim.keymap.set('n', '\\', '<Cmd>Neotree reveal<CR>', { desc = 'NeoTree reveal', silent = true })
+vim.keymap.set('n', '\\', '<Cmd>Neotree toggle<CR>', { desc = 'NeoTree toggle', silent = true })
 
 require('neo-tree').setup {
   filesystem = {
     window = {
       mappings = {
         ['\\'] = 'close_window',
+        ['Z'] = 'system_open',
       },
     },
     commands = {
