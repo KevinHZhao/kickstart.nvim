@@ -110,7 +110,7 @@ do
   vim.o.number = true
   -- You can also add relative line numbers, to help with jumping.
   --  Experiment for yourself to see if you like it!
-  -- vim.o.relativenumber = true
+  vim.o.relativenumber = true
 
   -- Enable mouse mode, can be useful for resizing splits for example!
   vim.o.mouse = 'a'
@@ -426,6 +426,7 @@ do
   vim.pack.add { gh 'catppuccin/nvim' }
   ---@diagnostic disable-next-line: missing-fields
   require('catppuccin').setup {
+    transparent_background = true
   }
 
   -- Load the colorscheme here.
