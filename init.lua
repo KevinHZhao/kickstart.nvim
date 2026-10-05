@@ -524,7 +524,7 @@ do
     gh 'nvim-telescope/telescope-ui-select.nvim',
   }
   if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
-
+  vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
   -- NOTE: You can install multiple plugins at once
   vim.pack.add(telescope_plugins)
 
