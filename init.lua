@@ -194,7 +194,7 @@ do
     underline = { severity = { min = vim.diagnostic.severity.WARN } },
 
     -- Can switch between these as you prefer
-    virtual_text = true, -- Text shows up at the end of the line
+    virtual_text = false, -- Text shows up at the end of the line
     virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
     -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
@@ -234,11 +234,23 @@ do
   vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
   vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+  -- Keybind for clearing multicursors (only enable after 0.13 release)
+  -- vim.keymap.set('n', '<C-[>', function()
+  --   local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')
+  --   vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
+  -- end)
+
   -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
-  -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
-  -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
-  -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
-  -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+  vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
+  vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
+  vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
+  vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+
+  vim.keymap.set("n", "<C-S-.>", "<C-w>>", { desc = "Make window wider" })
+  vim.keymap.set("n", "<C-S-,>", "<C-w><", { desc = "Make window narrower" })
+  vim.keymap.set("n", "<C-=>", "<C-w>=", { desc = "Make window equal width" })
+  vim.keymap.set("n", "<C-S-=>", "<C-w>+", { desc = "Make window taller" })
+  vim.keymap.set("n", "<C-->", "<C-w>-", { desc = "Make window shorter" })
 
   -- [[ Basic Autocommands ]]
   --  See `:help lua-guide-autocommands`
@@ -423,16 +435,31 @@ do
   -- change the command under that to load whatever the name of that colorscheme is.
   --
   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  vim.pack.add { gh 'catppuccin/nvim' }
+  -- vim.pack.add { gh 'catppuccin/nvim' }
+  vim.pack.add { gh 'akashsanapala2004/neonforge.nvim' }
+  vim.pack.add { gh 'HiPhish/rainbow-delimiters.nvim' }
+  require 'rainbow-delimiters.setup'.setup {
+    strategy = {
+      [''] = function(bufnr)
+        if vim.api.nvim_get_option_value("buftype", {buf = bufnr}) == "terminal" then
+          return nil
+        else
+          return 'rainbow-delimiters.strategy.global'
+        end
+      end
+    }
+  }
   ---@diagnostic disable-next-line: missing-fields
-  require('catppuccin').setup {
-    transparent_background = true
+  require('neonforge').setup {
+    transparent = true,
+    italic_comments = true
   }
 
   -- Load the colorscheme here.
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  vim.cmd.colorscheme 'catppuccin-mocha'
+  -- vim.cmd.colorscheme 'catppuccin-mocha'
+  vim.cmd.colorscheme 'neonforge'
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -656,7 +683,11 @@ do
 
   -- Useful status updates for LSP.
   vim.pack.add { gh 'j-hui/fidget.nvim' }
-  require('fidget').setup {}
+  require('fidget').setup {
+    progress = {
+      suppress_on_insert = true
+    }
+  }
 
   --  This function gets run when an LSP attaches to a particular buffer.
   --    That is to say, every time a new file is opened that is associated with
@@ -735,8 +766,7 @@ do
     -- gopls = {},
     -- pyright = {},
     -- tsc = {},
-    ltex_plus = {},
-    texlab = {},
+    -- texlab = {},
     --
     -- Some languages (like rust) have entire language plugins that can be useful:
     --    https://github.com/mrcjkb/rustaceanvim
@@ -776,6 +806,9 @@ do
           format = { enable = false }, -- Disable formatting (formatting is done by stylua)
         },
       },
+    },
+    ltex_plus = {
+      
     },
   }
 
@@ -911,7 +944,7 @@ do
     completion = {
       -- By default, you may press `<c-space>` to show the documentation.
       -- Optionally, set `auto_show = true` to show the documentation after a delay.
-      documentation = { auto_show = false, auto_show_delay_ms = 500 },
+      documentation = { auto_show = true, auto_show_delay_ms = 500 },
     },
 
     sources = {

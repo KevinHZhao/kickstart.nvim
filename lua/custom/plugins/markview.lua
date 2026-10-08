@@ -1,1 +1,8 @@
 vim.pack.add{"https://www.github.com/OXY2DEV/markview.nvim"}
+
+require("markview").setup({
+  preview = {
+    filetypes = { "markdown", "codecompanion" },
+    ignore_buftypes = {},
+  }
+})
